@@ -1,39 +1,42 @@
 class Flappy {
-  constructor() {
-    this.posYFlappy = height / 2;
-    this.posXFlappy = 64;
-    this.gravity = 0.6;
-    this.lift = -15;
-    this.velocity = 0;
-    this.icon = birdSprite;
-    this.width = 64;
-    this.height = 64;
+  //Constantes a tout les Flappy
+  constructor(image1, image2) {
+    this.image1 = image1;
+    this.image2 = image2;
+    this.width = width / 10;
+    this.posY = height / 2;
+    this.posX = width / 3;
+    this.speedY = 0;
   }
 
-  show() {
-    image(this.icon, this.x, this.y, this.width, this.height);
+  display() {
+    imageMode(CENTER);
+    let img;
+    if (this.speedY > 0) {
+      img = this.image1;
+    } else {
+      img = this.image2;
+    }
+    image(img, this.posX, this.posY, width / 10, width / 15);
   }
 
-  up() {
-    this.velocity += this.lift;
-  }
+  move() {
+    this.posY += 3 - this.speedY;
 
-  update() {
-    this.velocity += this.gravity;
-    this.y += this.velocity;
-
-    if (this.y >= height - this.height) {
-      this.y = height - this.height;
-      this.velocity = 0;
+    if (this.speedY > 0) {
+      this.speedY--;
     }
 
-    if (this.y <= 0) {
-      this.y = 0;
-      this.velocity = 0;
+    if (this.speedY < 0) {
+      this.speedY = 0;
     }
   }
+
+  jump() {
+    this.speedY = 20;
+  }
+
+  shoot() {}
+
+  dead() {}
 }
-
-let flappy = new Flappy();
-
-console.log(flappy);
